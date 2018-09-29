@@ -1,64 +1,47 @@
-const dots = [];
-let drag = 0.97;
-let slider;
-let file;
-let sound;
-let fft;
-let capturer = new CCapture({
-  framerate: 120,
-  verbose: true,
-  format: 'webm'
-});
-let wave;
-let cnv;
-const scrollSpeed = 20;
-document.addEventListener('contextmenu', event => event.preventDefault());
-
-function setup() {
-  cnv = createCanvas(windowWidth, windowHeight).position(0, 0).parent("#container");
-  slider = createSlider(1, 10000, 2500).position(16, 16);
-  file = createFileInput(fileSelected).position(16, 48).style("color", "#ebebeb");
-  fft = new p5.FFT;
-}
-
-
-function draw() {
-  // requestAnimationFrame(draw);
-  background(51, 200);
-  capturer.capture(cnv.elt);
-  if (wave) {
-    for (let i = 0; i < wave.length; i++) {
-      strokeWeight(1);
-      stroke(235);
-      line(i, height, i, map(abs(wave[i]), 0, 4, height, 0));
+class Dot {
+  constructor() {
+    this.x = random(0, width);
+    this.y = random(0, height);
+    this.h = floor(random(0, 359));
+    this.vel = createVector(0, 0);
+    this.color = color("hsl(" + this.h + ", 100%, 50%)");
+  }
+  show() {
+    this.color = color("hsl(" + this.h + ", 100%, 50%)");
+    stroke(this.color);
+    strokeWeight(4);
+    point(this.x, this.y);
+    this.x += this.vel.x;
+    this.y += this.vel.y;
+    if (this.h <= 0) {
+      this.h += 360;
+    } else if (this.h >= 360) {
+      this.h -= 360;
     }
-    noStroke();
-    fill(255, 128, 128);
-    rect(map(sound.currentTime(), 0, sound.duration(), 0, width), height * 0.75, 5, height / 4);
-  }
-  for (const dot of dots) {
-    dot.show();
-  }
-  while (dots.length < slider.value()) {
-    dots.push(new Dot);
-  }
-  while (dots.length > slider.value()) {
-    dots.pop();
+    if (this.x > width) {
+      this.x -= width;
+    } else if (this.x < 0) {
+      this.x += width;
+    }
+    if (this.y > height) {
+      this.y -= height;
+    } else if (this.y < 0) {
+      this.y += height;
+    }
+    if (mouseButton == LEFT && mouseIsPressed) {
+      this.dx = mouseX - this.x;
+      this.dy = mouseY - this.y;
+      this.ds = Math.hypot(this.dx, this.dy);
+      this.vel.x += this.dx / this.ds;
+      this.vel.y += this.dy / this.ds;
+    } else if (mouseButton == RIGHT && mouseIsPressed) {
+      this.dx = mouseX - this.x;
+      this.dy = mouseY - this.y;
+      this.ds = Math.hypot(this.dx, this.dy);
+      this.vel.x -= this.dx / this.ds;
+      this.vel.y -= this.dy / this.ds;
+    }
+    this.vel.x *= drag;
+    this.vel.y *= drag;
   }
 }
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
-
-function waveform(file) {
-  return file.getPeaks(width);
-}
-
-// function mouseWheel(event) {
-//   if (slider.value() > scrollSpeed + 1 && event.delta > 0) {
-//     slider.elt.value -= scrollSpeed;
-//   } else if (slider.value() < 10000 - scrollSpeed - 1 && event.delta < 0) {
-//     slider.elt.value += scrollSpeed;
-//   }
-// }
