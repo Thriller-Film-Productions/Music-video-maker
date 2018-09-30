@@ -1,6 +1,6 @@
 # Music video maker
 
-This website will let you make music videos by controlling a bunch of dots with your mouse.
+This website will let you make music videos by controlling a bunch of dots with your mouse. BTW, this was inspired by an Android app called Particle Flow.
 
 ## How to use
 
