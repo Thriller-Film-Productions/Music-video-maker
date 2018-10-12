@@ -1,7 +1,12 @@
 const dots = [];
+let seq;
+let change = 0;
 let drag = 0.97;
 let slider;
 let file;
+let bpm;
+let delay;
+let randomize;
 let sound;
 let fft;
 // let capturer = new CCapture({
@@ -17,8 +22,12 @@ document.addEventListener('contextmenu', event => event.preventDefault());
 
 function setup() {
   cnv = createCanvas(windowWidth, windowHeight).position(0, 0).parent("#container");
-  slider = createSlider(1, 10000, 2500).position(16, 16);
-  file = createFileInput(fileSelected).position(16, 48).style("color", "#ebebeb");
+  randomize = createButton("reset dots").position(16, 16).mousePressed(reset);
+  slider = createSlider(1, 10000, 2500).position(16, 48);
+  file = createFileInput(fileSelected).position(16, 80).style("color", "#ebebeb");
+  bpm = createInput(120, "number").position(16, 112);
+  delay = createInput(0, "number").position(16, 144);
+  sequencer = createElement("textarea").position(16, 176).value("0, 0");
   fft = new p5.FFT;
 }
 
@@ -56,6 +65,18 @@ function waveform(file) {
   return file.getPeaks(width);
 }
 
+function reset() {
+  for (let dot of dots) {
+    dot.x = random(0, windowWidth);
+    dot.y = random(0, windowHeight);
+  }
+}
+
+function keyPressed() {
+  if (keyCode == 82) {
+    reset();
+  }
+}
 // function mouseWheel(event) {
 //   if (slider.value() > scrollSpeed + 1 && event.delta > 0) {
 //     slider.elt.value -= scrollSpeed;
