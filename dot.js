@@ -13,6 +13,10 @@ class Dot {
     point(this.x, this.y);
     this.x += this.vel.x;
     this.y += this.vel.y;
+    if (sound && sound.isPlaying()) {
+      this.vel.x += seq[change][0]
+      this.vel.y += seq[change][1]
+    }
     if (this.h <= 0) {
       this.h += 360;
     } else if (this.h >= 360) {
