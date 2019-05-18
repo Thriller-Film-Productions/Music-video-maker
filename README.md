@@ -1,6 +1,6 @@
 # Music video maker
 
-This website will let you make music videos by controlling a bunch of dots with your mouse. BTW, this was inspired by an Android app called Particle Flow.
+This website will let you make music videos by controlling a bunch of dots with your mouse. Also, this was inspired by an Android app called Particle Flow.
 
 ## How to use
 
@@ -9,7 +9,7 @@ As soon as you upload a sound using the upload button, it will give you a second
 
 To record it, I highly reccomend [OBS](https://obsproject.com/)
 
-### Making the dots dance themselves
+### Making the dots move by themselves
 
 The fourth menu item, the one set to 120, is the BPM of the song. The fifth menu item sets the delay for when to make the dots start in milliseconds. The sixth menu item sets the forces to apply to the dots every beat, it's formatted like this:
 
