@@ -21,6 +21,8 @@ x   y<br>
 
 This pattern will make the dots move in a square.
 
+You can also change the 4th text box to set the dots to travel randomly
+
 ### Controls
 
 Left click to attract the dots to your mouse and right click to repel them.

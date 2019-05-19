@@ -45,6 +45,9 @@ class Dot {
       this.vel.x -= this.dx / this.ds;
       this.vel.y -= this.dy / this.ds;
     }
+    let s = parseInt(driftSpeed.value()) * 0.01;
+    this.vel.x += (Math.random() - 0.5) * s;
+    this.vel.y += (Math.random() - 0.5) * s;
     this.vel.x *= drag;
     this.vel.y *= drag;
   }
